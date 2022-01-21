@@ -1,0 +1,89 @@
+{
+    "initiatives": [
+        {
+            "comment": "Subscription policy initiative example",
+            "name": "<unique name used as part of the initiative id>",
+            "type": "Custom",
+            "display_name": "<Descriptive Name for Initiative",
+            "description": "<Detailed Description for initiative>",
+            "scope": "subscription",
+            "scope_target": "/subscriptions/<subscription GUID>",
+            "location": "<azure region for managed identity creation>",
+            "policies": [
+                {
+                    "comment": "Built-in policy template entry",
+                    "type": "Builtin",
+                    "display_name": "<Display name for the built-in policy>",
+                    "parameters": {
+                        "<parameterName>": {
+                            "value": "<parameter value>"
+                        }
+                    }
+                },               
+                {
+                    "comment": "Custom policy definition template",
+                    "type": "Custom",
+                    "name": "<Unique-ID-Name-For-Policy>",
+                    "display_name": "<Descriptive policy name for the custom policy>",
+                    "mode": "<Policy mode (Indexed and All are the most common>",
+                    "description": "<Detailed description for the custom policy>",
+                    "github_repo": "<github repo as user/repo syntax>",
+                    "github_repo_branch": "<github branch to pull rule files from>",
+                    "policy_rule_filename": "<relative path to a json file holding the policy rule>",
+                    "policy_parameters_filename": "<relative path to a json file holding the policy parameters>",
+                    "policy_metadata_filename": "<relative path to a json file holding the policy metadata>",
+                    "parameters": {
+                        "<parameterName1>": {
+                            "value": "<parameter value1>"
+                        },
+                        "<parameterName2": {
+                            "value": "<parameter value2>"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "<unique name used as part of the initiative id>",
+            "type": "Custom",
+            "display_name": "<Descriptive Name for Initiative",
+            "description": "<Detailed Description for initiative>",
+            "scope": "subscription",
+            "scope_target": "/subscriptions/<subscription GUID>",
+            "location": "<azure region for managed identity creation>",
+            "policies": [
+                {
+                    "comment": "Built-in policy template entry",
+                    "type": "Builtin",
+                    "display_name": "<Display name for the built-in policy>",
+                    "parameters": {
+                        "<parameterName>": {
+                            "value": "<parameter value>"
+                        }
+                    }
+                },               
+                {
+                    "comment": "Custom policy definition template",
+                    "type": "Custom",
+                    "name": "<Unique-ID-Name-For-Policy>",
+                    "display_name": "<Descriptive policy name for the custom policy>",
+                    "mode": "<Policy mode (Indexed and All are the most common>",
+                    "description": "<Detailed description for the custom policy>",
+                    "github_repo": "<github repo as user/repo syntax>",
+                    "github_repo_branch": "<github branch to pull rule files from>",
+                    "policy_rule_filename": "<relative path to a json file holding the policy rule>",
+                    "policy_parameters_filename": "<relative path to a json file holding the policy parameters>",
+                    "policy_metadata_filename": "<relative path to a json file holding the policy metadata>",
+                    "parameters": {
+                        "<parameterName1>": {
+                            "value": "<parameter value1>"
+                        },
+                        "<parameterName2": {
+                            "value": "<parameter value2>"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
