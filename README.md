@@ -22,6 +22,7 @@ To use the terraform code, perform the following steps:
     - Set the subscription context to the subscription that will hold the terraform state using the cli `az account set --subscription <id>` or `az account set --subscription "<subscrition name>"`
 - Clone the repo (assumes git is installed)
     - `git clone https://github.com/jchancellor-ms/azure-policy-batch-terraform.git`
+    - Change directory into the cloned directory `cd azure-policy-batch-terraform `
 - Optionally, configure a remote state configuration
     - Create a resource group (or use an existing resource group) 
     - Create a storage account configured to your retention needs and ensure the account logged in has the ability to write and read blobs

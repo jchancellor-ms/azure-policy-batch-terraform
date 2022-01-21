@@ -5,7 +5,7 @@ locals{
 }
 
 module "create_initiative" {
-    source = "../modules/azure_policy_create_and_assign_initiatives"
+    source = "./modules/azure_policy_create_and_assign_initiatives"
    initiative_details = tomap(local.initiative_details)
 }
 
