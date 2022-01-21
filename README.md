@@ -15,7 +15,7 @@ I created this project to enable the implementation of Azure policy initiatives 
 [(Back to top)](#table-of-contents)
 
 To use the terraform code, perform the following steps:
-- Configure the deployment machine to use terraform with Azure
+- Configure the deployment machine to use terraform with Azure. If deploying from cloud shell, terraform and azure cli applications are preinstalled and login is done automatically so those steps can be skipped.
     - Install terraform.  Instructions can be found at this [link](https://learn.hashicorp.com/tutorials/terraform/install-cli)
     - Install the Azure CLI.  Instructions can be found at this [link](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
     - Sign-in to the Azure CLI. Instructions for sign-in options can be found at this [link](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
