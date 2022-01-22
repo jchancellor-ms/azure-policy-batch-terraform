@@ -31,6 +31,10 @@ resource "azurerm_policy_set_definition" "this" {
   description           = var.initiative_definition.description
   management_group_name = local.management_group_name
 
+  depends_on = [
+    module.get_policy_ids
+  ]
+
   dynamic "policy_definition_reference" {
     #for_each = var.policy_definitions
     for_each = local.policies
