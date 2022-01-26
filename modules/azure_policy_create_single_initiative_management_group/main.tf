@@ -25,7 +25,6 @@ module "custom_policy_creation" {
 module "get_policy_ids" {
   source           = "../azure_policy_output_policy_id"
   policy_name_list = local.policy_name_list
-  seed             = local.management_group_name
 
   depends_on = [
     module.custom_policy_creation
