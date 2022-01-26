@@ -49,7 +49,7 @@ resource "azurerm_policy_set_definition" "this" {
     for_each = local.policies
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)
-      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
+      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, policy_definition_reference.value.display_name)
 
     }
   }
