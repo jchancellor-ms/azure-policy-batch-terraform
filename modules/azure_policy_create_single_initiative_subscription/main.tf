@@ -1,6 +1,14 @@
 locals {
   policies         = var.initiative_definition.policies
-  policy_name_list = [for policy in local.policies : policy.display_name]
+  policy_name_list = [for policy in local.policies : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  subscription_id  = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
+}
+
+
+resource "random_integer" "display_name_uniqueness" {
+  min  = 1
+  max  = 100000
+  seed = local.subscription_id
 }
 
 module "custom_policy_creation" {
@@ -32,7 +40,7 @@ resource "azurerm_policy_set_definition" "this" {
     for_each = local.policies
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)
-      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, policy_definition_reference.value.display_name)
+      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
 
     }
   }

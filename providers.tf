@@ -13,7 +13,7 @@ terraform {
       version = "~> 4.19.0"
     }
   }
-/*
+  /*
   backend "azurerm" {
     resource_group_name  = "<resource_group_for_tf_state_storage_account"
     storage_account_name = "<tf_state_storage_account_name"

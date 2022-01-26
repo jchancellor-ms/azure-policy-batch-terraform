@@ -1,10 +1,19 @@
 locals {
   policies              = var.initiative_definition.policies
-  policy_name_list      = [for policy in local.policies : policy.display_name]
+  policy_name_list      = [for policy in local.policies : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
   management_group_name = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
   #"/providers/Microsoft.Management/managementGroups/t1-mgmtgroup"
 }
 
+#create a random provider seed on management group name
+#append to the output for the display name (only)
+resource "random_integer" "display_name_uniqueness" {
+  min  = 1
+  max  = 100000
+  seed = local.management_group_name
+}
+
+#uniqueness integer gets created in the custom policy module with the same seed
 module "custom_policy_creation" {
   source             = "../azure_policy_create_custom_policies"
   policy_definitions = local.policies
@@ -40,7 +49,7 @@ resource "azurerm_policy_set_definition" "this" {
     for_each = local.policies
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)
-      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, policy_definition_reference.value.display_name)
+      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
 
     }
   }

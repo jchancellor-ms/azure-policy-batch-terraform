@@ -6,6 +6,12 @@ locals {
   short_scope               = element(split("/", var.scope_target), length(split("/", var.scope_target)) - 1)
 }
 
+#randomize the display name to prevent overlap when applied to multiple scopes
+resource "random_integer" "display_name_uniqueness" {
+  min  = 1
+  max  = 100000
+  seed = local.short_scope
+}
 
 
 module "custom_policy_creation_subscription" {
@@ -14,7 +20,7 @@ module "custom_policy_creation_subscription" {
   for_each = local.subscription_policies
 
   policy_definition_name         = length("${each.value.name}-${local.short_scope}") < 64 ? "${each.value.name}-${local.short_scope}" : substr("${each.value.name}-${local.short_scope}", 0, 63)
-  policy_definition_display_name = each.value.display_name
+  policy_definition_display_name = "${each.value.display_name}-${random_integer.display_name_uniqueness.result}"
   policy_mode                    = each.value.mode
   policy_description             = each.value.description
   custom_policy_github_repo      = each.value.github_repo
@@ -30,7 +36,7 @@ module "custom_policy_creation_management_group" {
   for_each = local.management_group_policies
 
   policy_definition_name         = length("${each.value.name}-${local.short_scope}") < 64 ? "${each.value.name}-${local.short_scope}" : substr("${each.value.name}-${local.short_scope}", 0, 63)
-  policy_definition_display_name = each.value.display_name
+  policy_definition_display_name = "${each.value.display_name}-${random_integer.display_name_uniqueness.result}"
   policy_mode                    = each.value.mode
   policy_description             = each.value.description
   custom_policy_github_repo      = each.value.github_repo

@@ -1,4 +1,5 @@
 #create each policy initiative configured in the definition file
+#append a portion of the subscription and/or management group id for uniqueness
 
 locals {
   subscription_initiatives     = { for initiative in var.initiative_details : (length("${initiative.name}-${(element(split("/", initiative.scope_target), length(split("/", initiative.scope_target)) - 1))}") < 64 ? "${initiative.name}-${(element(split("/", initiative.scope_target), length(split("/", initiative.scope_target)) - 1))}" : substr("${initiative.name}-${(element(split("/", initiative.scope_target), length(split("/", initiative.scope_target)) - 1))}", 0, 63)) => initiative if initiative.scope == "subscription" }
