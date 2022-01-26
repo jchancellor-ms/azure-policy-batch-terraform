@@ -1,6 +1,5 @@
 locals {
-  policies = var.initiative_definition.policies
-  #policy_name_list = [for policy in local.policies : policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  policies        = var.initiative_definition.policies
   policy_object   = { for policy in local.policies : policy.display_name => tostring(policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}") }
   subscription_id = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
 }
@@ -22,9 +21,8 @@ module "custom_policy_creation" {
 
 #Get the policy IDs to use for creating the policy initiative
 module "get_policy_ids" {
-  source = "../azure_policy_output_policy_id"
-  #policy_name_list = local.policy_name_list
-  policy_name_list = local.policy_object
+  source             = "../azure_policy_output_policy_id"
+  policy_name_object = local.policy_object
   depends_on = [
     module.custom_policy_creation
   ]
@@ -37,7 +35,6 @@ resource "azurerm_policy_set_definition" "this" {
   description  = var.initiative_definition.description
 
   dynamic "policy_definition_reference" {
-    #for_each = var.policy_definitions
     for_each = local.policies
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)

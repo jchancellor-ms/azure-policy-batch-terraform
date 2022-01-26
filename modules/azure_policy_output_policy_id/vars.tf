@@ -1,3 +1,3 @@
-variable "policy_name_list" {
-  description = "List of display names to be used for looking up the policy ids"
+variable "policy_name_object" {
+  description = "map of display names to be used for looking up the policy ids"
 }
