@@ -1,6 +1,6 @@
 locals {
   policies              = var.initiative_definition.policies
-  policy_name_list      = [for policy in local.policies : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  policy_name_list      = [for policy in local.policies : policy.display_name]
   management_group_name = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
   #"/providers/Microsoft.Management/managementGroups/t1-mgmtgroup"
 }
@@ -13,7 +13,6 @@ resource "random_integer" "display_name_uniqueness" {
   seed = local.management_group_name
 }
 
-#uniqueness integer gets created in the custom policy module with the same seed
 module "custom_policy_creation" {
   source             = "../azure_policy_create_custom_policies"
   policy_definitions = local.policies

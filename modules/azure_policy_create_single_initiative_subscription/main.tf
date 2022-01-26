@@ -1,6 +1,6 @@
 locals {
   policies         = var.initiative_definition.policies
-  policy_name_list = [for policy in local.policies : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  policy_name_list = [for policy in local.policies : policy.display_name]
   subscription_id  = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
 }
 
