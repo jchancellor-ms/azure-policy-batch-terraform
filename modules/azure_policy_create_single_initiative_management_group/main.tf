@@ -1,6 +1,7 @@
 locals {
-  policies              = var.initiative_definition.policies
-  policy_name_list      = [for policy in local.policies : policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  policies = var.initiative_definition.policies
+  #policy_name_list      = [for policy in local.policies : policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
+  policy_object         = { for policy in local.policies : policy => (policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}") }
   management_group_name = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
   #"/providers/Microsoft.Management/managementGroups/t1-mgmtgroup"
 }
@@ -23,8 +24,9 @@ module "custom_policy_creation" {
 
 #Get the policy IDs to use for creating the policy initiative
 module "get_policy_ids" {
-  source           = "../azure_policy_output_policy_id"
-  policy_name_list = local.policy_name_list
+  source = "../azure_policy_output_policy_id"
+  #policy_name_list = local.policy_name_list
+  policy_name_list = local.policy_object
   depends_on = [
     module.custom_policy_creation
   ]
