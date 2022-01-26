@@ -1,7 +1,7 @@
 locals {
   policies = var.initiative_definition.policies
   #policy_name_list      = [for policy in local.policies : policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}"]
-  policy_object         = { for policy in local.policies : policy => tostring(policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}") }
+  policy_object         = { for policy in local.policies : policy.display_name => tostring(policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}") }
   management_group_name = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
   #"/providers/Microsoft.Management/managementGroups/t1-mgmtgroup"
 }
