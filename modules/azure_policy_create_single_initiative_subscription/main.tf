@@ -1,6 +1,6 @@
 locals {
   policies        = var.initiative_definition.policies
-  policy_object   = { for policy in local.policies : policy.display_name => tostring(policy.type == "Builtin" ? policy.display_name : "${policy.display_name}-${random_integer.display_name_uniqueness.result}") }
+  policy_object   = { for policy in local.policies : policy.display_name => tostring(policy.display_name) if policy.type == "Builtin" }
   subscription_id = element(split("/", var.initiative_definition.scope_target), length(split("/", var.initiative_definition.scope_target)) - 1)
 }
 
@@ -23,9 +23,6 @@ module "custom_policy_creation" {
 module "get_policy_ids" {
   source             = "../azure_policy_output_policy_id"
   policy_name_object = local.policy_object
-  depends_on = [
-    module.custom_policy_creation
-  ]
 }
 
 resource "azurerm_policy_set_definition" "this" {
@@ -38,8 +35,7 @@ resource "azurerm_policy_set_definition" "this" {
     for_each = local.policies
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)
-      policy_definition_id = lookup(module.get_policy_ids.policy_id_map, policy_definition_reference.value.type == "Builtin" ? policy_definition_reference.value.display_name : "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
-
+      policy_definition_id = lookup((merge(module.custom_policy_creation.custom_policy_ids_all, module.get_policy_ids.policy_id_map)), policy_definition_reference.value.type == "Builtin" ? policy_definition_reference.value.display_name : "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
     }
   }
 }
