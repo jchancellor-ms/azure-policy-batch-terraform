@@ -42,6 +42,7 @@ resource "azurerm_policy_set_definition" "this" {
     content {
       parameter_values     = jsonencode(policy_definition_reference.value.parameters)
       policy_definition_id = lookup((merge(module.custom_policy_creation.custom_policy_ids_all, module.get_policy_ids.policy_id_map)), policy_definition_reference.value.type == "Builtin" ? policy_definition_reference.value.display_name : "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
+      reference_id         = lookup((merge(module.custom_policy_creation.custom_policy_ids_all, module.get_policy_ids.policy_id_map)), policy_definition_reference.value.type == "Builtin" ? policy_definition_reference.value.display_name : "${policy_definition_reference.value.display_name}-${random_integer.display_name_uniqueness.result}")
     }
   }
 }
