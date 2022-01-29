@@ -28,7 +28,7 @@ module "get_policy_ids" {
 resource "azurerm_policy_set_definition" "this" {
   name         = var.initiative_definition.name
   policy_type  = var.initiative_definition.type
-  display_name = var.initiative_definition.display_name
+  display_name = "${var.initiative_definition.display_name}-${local.subscription_id}"
   description  = var.initiative_definition.description
 
   dynamic "policy_definition_reference" {
