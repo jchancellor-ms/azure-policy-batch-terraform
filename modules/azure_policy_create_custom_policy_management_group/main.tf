@@ -7,14 +7,11 @@ data "github_repository" "this" {
   full_name = var.custom_policy_github_repo
 }
 
-
-
 data "github_repository_file" "this_policy_rule" {
   repository = data.github_repository.this.id
   branch     = var.github_repo_branch
   file       = var.policy_rule_filename
 }
-
 
 data "github_repository_file" "this_policy_parameters" {
   repository = data.github_repository.this.id
@@ -40,4 +37,7 @@ resource "azurerm_policy_definition" "this" {
   policy_rule = data.github_repository_file.this_policy_rule.content
   parameters  = data.github_repository_file.this_policy_parameters.content
 
+  lifecycle {
+    create_before_destroy = true
+  }
 }
