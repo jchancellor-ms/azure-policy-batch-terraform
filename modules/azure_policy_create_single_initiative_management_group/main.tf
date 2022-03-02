@@ -29,13 +29,12 @@ module "get_policy_ids" {
 
 #create the initiative
 resource "azurerm_policy_set_definition" "this" {
-  name                  = var.initiative_definition.name
-  policy_type           = var.initiative_definition.type
-  display_name          = "${var.initiative_definition.display_name}-${local.management_group_name}"
-  description           = var.initiative_definition.description
-  management_group_name = local.management_group_name
-
-
+  name                = var.initiative_definition.name
+  policy_type         = var.initiative_definition.type
+  display_name        = "${var.initiative_definition.display_name}-${local.management_group_name}"
+  description         = var.initiative_definition.description
+  management_group_id = var.initiative_definition.scope_target
+  #management_group_name = local.management_group_name #remove after validating new management_group_id syntax
 
   dynamic "policy_definition_reference" {
     for_each = local.policies

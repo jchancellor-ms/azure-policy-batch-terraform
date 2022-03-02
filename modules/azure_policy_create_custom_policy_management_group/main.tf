@@ -26,12 +26,13 @@ data "github_repository_file" "this_policy_metadata" {
 }
 
 resource "azurerm_policy_definition" "this" {
-  name                  = var.policy_definition_name
-  policy_type           = "Custom"
-  mode                  = var.policy_mode
-  display_name          = var.policy_definition_display_name
-  description           = var.policy_description
-  management_group_name = var.scope_target
+  name                = var.policy_definition_name
+  policy_type         = "Custom"
+  mode                = var.policy_mode
+  display_name        = var.policy_definition_display_name
+  description         = var.policy_description
+  management_group_id = var.scope_target
+  #management_group_name = var.scope_target #remove after confirming management group id works as expected
 
   metadata    = data.github_repository_file.this_policy_metadata.content
   policy_rule = data.github_repository_file.this_policy_rule.content
