@@ -45,8 +45,7 @@ module "custom_policy_creation_management_group" {
   policy_parameters_filename     = each.value.policy_parameters_filename
   policy_metadata_filename       = each.value.policy_metadata_filename
   scope                          = var.scope
-  scope_target                   = var.scope_target
-  #scope_target                   = local.short_scope #remove after validating new management_id syntax from provider
+  scope_target                   = local.short_scope
 
 }
 
